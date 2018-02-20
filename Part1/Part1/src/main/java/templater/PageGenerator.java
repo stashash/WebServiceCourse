@@ -10,9 +10,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
-/**
- * @author v.chibrikov
- */
+
 public class PageGenerator {
     private static final String HTML_DIR = "templates";
     private static final Configuration CFG = new Configuration();
