@@ -1,34 +1,35 @@
 package WebServiceCourse;
 
+
 import WebServiceCourse.dbDervice.DBException;
-import WebServiceCourse.dbDervice.DBService;
+import WebServiceCourse.hibernate.dataset.UserDataSet;
 
-/**
- * Hello world!
- *
- */
-class X{
-    int a=10;
-}
-class Y extends X{
-    int a=20;
-}
-
-public class App 
+public class App
 {
     public static void main( String[] args ){
 
-        DBService dbService = new DBService();
+        WebServiceCourse.hibernate.DBService dbService = new WebServiceCourse.hibernate.DBService();
         dbService.printConnectInfo();
+
         try {
-            dbService.create();
-            dbService.addUser(1,"Капрал");
-            System.out.println(dbService.getUser(1).toString());
-            dbService.cleanUp();
+            long userId = dbService.addUser("Капрал");
+            System.out.println("Added user id: " + userId);
+
+            userId = dbService.addUser("Hash");
+            System.out.println("Added user id: " + userId);
+
+            userId = dbService.addUser("Tom");
+            System.out.println("Added user id: " + userId);
+
+            //UserDataSet dataSet = dbService.getUser(userId);
+            //System.out.println("User data set: " + dataSet);
+
+            dbService.delUser("Капрал");
+
         } catch (DBException e) {
-            System.out.println("Провал");
             e.printStackTrace();
         }
+
     }
 
 }
