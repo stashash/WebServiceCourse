@@ -5,7 +5,9 @@ package WebServiceCourse.hibernate;
 //import dbService.dataSets.UsersDataSet;
 import WebServiceCourse.dbDervice.DBException;
 import WebServiceCourse.hibernate.dao.UsersDao;
+import WebServiceCourse.hibernate.dao.UsersGroupDao;
 import WebServiceCourse.hibernate.dataset.UserDataSet;
+import WebServiceCourse.hibernate.dataset.UsersGroup;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -37,6 +39,8 @@ public class DBService {
     private Configuration getMySqlConfiguration() {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(UserDataSet.class);
+        configuration.addAnnotatedClass(UsersGroup.class);
+
 
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
@@ -51,6 +55,7 @@ public class DBService {
     private Configuration getH2Configuration() {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(UserDataSet.class);
+        configuration.addAnnotatedClass(UsersGroup.class);
 
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         configuration.setProperty("hibernate.connection.driver_class", "org.h2.Driver");
@@ -115,5 +120,15 @@ public class DBService {
         builder.applySettings(configuration.getProperties());
         ServiceRegistry serviceRegistry = builder.build();
         return configuration.buildSessionFactory(serviceRegistry);
+    }
+
+    public long saveGroup(String name){
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        UsersGroupDao ugd = new UsersGroupDao(session);
+        long id = ugd.insertGroup(name);
+        transaction.commit();
+        session.close();
+        return id;
     }
 }

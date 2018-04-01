@@ -21,6 +21,9 @@ public class App
             userId = dbService.addUser("Tom");
             System.out.println("Added user id: " + userId);
 
+            long groupId = dbService.saveGroup("Admimistrator");
+            System.out.println("Added Group id: " + groupId);
+
             //UserDataSet dataSet = dbService.getUser(userId);
             //System.out.println("User data set: " + dataSet);
 
